@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>KTÜ Atıf ve Makale Atölyesi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap">
+<style>
+/* Düzen: üstte lacivert şerit + sekmeler; her sekmede solda giriş, sağda sonuç (dar ekranda alt alta). */
+:root {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --ink: #0f2557;
+  --ink-soft: #4d5873;
+  --line: #d9e0ec;
+  --accent: #e8711a;
+  --accent-ink: #ffffff;
+  --blue: #2f6fd6;
+  --code-bg: #eef2f8;
+  --ok: #18865a; --ok-bg: #e5f5ee;
+  --warn: #b26200; --warn-bg: #fff2e0;
+  --bad: #c43a3a; --bad-bg: #fdeaea;
+  --band: #0f2557; --band-ink: #ffffff; --band-soft: #a9bbe0;
+  --f-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1426; --surface: #121e36; --ink: #e6ecf8; --ink-soft: #9fb0cf; --line: #24375b;
+  --accent: #f28a3c; --accent-ink: #1a0d02; --blue: #7fa8f0; --code-bg: #0e1930;
+  --ok: #4cc893; --ok-bg: #0f2c22; --warn: #f2a74a; --warn-bg: #33230c; --bad: #f07a7a; --bad-bg: #351616;
+  --band: #08101f; --band-ink: #e6ecf8; --band-soft: #7f93ba; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1426; --surface: #121e36; --ink: #e6ecf8; --ink-soft: #9fb0cf; --line: #24375b;
+  --accent: #f28a3c; --accent-ink: #1a0d02; --blue: #7fa8f0; --code-bg: #0e1930;
+  --ok: #4cc893; --ok-bg: #0f2c22; --warn: #f2a74a; --warn-bg: #33230c; --bad: #f07a7a; --bad-bg: #351616;
+  --band: #08101f; --band-ink: #e6ecf8; --band-soft: #7f93ba; color-scheme: dark }
+
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.band { background: var(--band); color: var(--band-ink); }
+header.band .wrap { padding-block: 22px 0; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--band-soft); font-weight: 600; }
+h1 { font-family: var(--f-display); font-size: clamp(24px, 4vw, 34px); line-height: 1.1; margin: 6px 0 4px; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
+.prompt-chip { display: inline-flex; gap: 8px; font-family: var(--f-mono); font-size: 13px; color: var(--band-soft); margin-bottom: 14px; }
+.prompt-chip b { color: var(--accent); font-weight: 600; }
+nav.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+nav.tabs a { text-decoration: none; color: var(--band-soft); padding: 10px 16px; border-radius: 8px 8px 0 0; font-weight: 600; font-size: 15px; }
+nav.tabs a[aria-current="page"] { background: var(--bg); color: var(--ink); }
+nav.tabs a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+main .wrap { padding-block: 22px 40px; }
+
+h2 { font-family: var(--f-display); font-size: 21px; margin: 0 0 4px; }
+h3 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin: 18px 0 8px; }
+p.lead { color: var(--ink-soft); margin: 0 0 16px; max-width: 70ch; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 22px; align-items: start; }
+@media (max-width: 860px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+label { display: block; font-weight: 600; font-size: 13px; margin: 10px 0 4px; }
+label small { font-weight: 400; color: var(--ink-soft); }
+textarea, input, select { width: 100%; box-sizing: border-box; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; }
+textarea { font-family: var(--f-mono); font-size: 12.5px; min-height: 260px; resize: vertical; line-height: 1.45; }
+textarea:focus, input:focus, select:focus { outline: 2px solid var(--blue); outline-offset: 0; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0 12px; }
+.btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+button { font: inherit; font-weight: 600; border-radius: 6px; padding: 9px 14px; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button:hover { filter: brightness(1.05); }
+button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+button:disabled { opacity: .55; cursor: progress; }
+.note { font-size: 13px; color: var(--ink-soft); margin-top: 10px; }
+.banner { border-radius: 8px; padding: 10px 12px; font-size: 14px; margin-bottom: 12px; border: 1px solid var(--line); }
+.banner.warn { background: var(--warn-bg); border-color: transparent; color: var(--ink); }
+.banner.bad { background: var(--bad-bg); border-color: transparent; }
+.banner.ok { background: var(--ok-bg); border-color: transparent; }
+
+/* Atıf sonuçları */
+.summary { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 3px 10px; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pill.ok { background: var(--ok-bg); color: var(--ok); }
+.pill.warn { background: var(--warn-bg); color: var(--warn); }
+.pill.bad { background: var(--bad-bg); color: var(--bad); }
+.pill.idle { background: var(--code-bg); color: var(--ink-soft); }
+.ref { border: 1px solid var(--line); border-left: 5px solid var(--line); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; background: var(--surface); }
+.ref.ok { border-left-color: var(--ok); } .ref.warn { border-left-color: var(--warn); } .ref.bad { border-left-color: var(--bad); }
+.ref-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.ref-src { font-family: var(--f-mono); font-size: 12px; color: var(--ink-soft); overflow-wrap: anywhere; margin: 4px 0 8px; }
+.checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; margin: 6px 0; }
+.chk { font-size: 13px; background: var(--code-bg); border-radius: 6px; padding: 5px 8px; }
+.chk b { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+.chk.ok { color: var(--ok); } .chk.warn { color: var(--warn); } .chk.bad { color: var(--bad); }
+.cr { font-size: 13.5px; margin-top: 6px; overflow-wrap: anywhere; }
+.cr .lbl { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+.links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; font-size: 13px; }
+.links a { color: var(--blue); }
+.why { font-size: 13.5px; margin-top: 6px; }
+
+/* Makale */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { padding: 6px 9px; border-bottom: 1px solid var(--line); text-align: center; white-space: nowrap; }
+th { background: var(--code-bg); font-weight: 600; }
+td.l, th.l { text-align: left; }
+.synth-tag { display: inline-block; background: var(--bad-bg); color: var(--bad); font-weight: 700; font-size: 11.5px; letter-spacing: .08em; padding: 3px 8px; border-radius: 4px; }
+pre.out { background: var(--code-bg); border-radius: 8px; padding: 14px; font-family: var(--f-mono); font-size: 12.5px; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 520px; overflow-y: auto; margin: 0; line-height: 1.5; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin: 10px 0; }
+.stat { background: var(--code-bg); border-radius: 8px; padding: 8px 10px; }
+.stat b { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+.stat span { font-family: var(--f-display); font-size: 18px; font-variant-numeric: tabular-nums; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin: 6px 0 10px; }
+.seg button { border: 0; border-radius: 0; padding: 7px 12px; font-size: 13px; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+footer { color: var(--ink-soft); font-size: 12.5px; padding-block: 0 30px; }
+@media (prefers-reduced-motion: no-preference) { .ref { animation: in .25s ease-out; } @keyframes in { from { transform: translateY(4px); } } }
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="eyebrow">KTÜ SBF · Ö-MER · Yapay Zekâ ile Etkili Prompt Yazımı</div>
+    <h1>Atıf ve Makale <em>Atölyesi</em></h1>
+    <div class="prompt-chip"><b>&gt;</b> doğrula · üret · şablonla</div>
+    <nav class="tabs" aria-label="Bölümler">
+      <a href="#atif" id="tab-atif">1 · Atıf doğrulama</a>
+      <a href="#makale" id="tab-makale">2 · Sentetik veri ve makale şablonu</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ─────────── ATIF ─────────── -->
+  <section id="view-atif" class="wrap">
+    <h2>Yapay zekânın verdiği kaynaklar gerçek mi?</h2>
+    <p class="lead">Kaynak listesini yapıştırın. Uygulama her kaynağın DOI’sini Crossref’te açar; başlığı, yılı ve ilk yazarı sizin yazdığınızla karşılaştırır. DOI’si olmayan kaynaklar için Crossref’te künyeyle arama yapar. Gönderilen tek şey kaynak metnidir.</p>
+    <div class="grid2">
+      <div class="panel">
+        <label for="refs">Kaynak listesi <small>— her kaynak ayrı satırda veya aralarında boş satır</small></label>
+        <textarea id="refs" spellcheck="false"></textarea>
+        <div class="btns">
+          <button class="primary" id="btn-check">Kaynakları doğrula</button>
+          <button id="btn-sample">Örnek listeyi yükle</button>
+          <button id="btn-clear">Temizle</button>
+        </div>
+        <p class="note">Örnek listede 4 kaynak var: biri tamamen doğru, birinin yılı yanlış, biri uydurma DOI, birinin DOI’si yok. Yapay zekâ çıktısını doğrudan yapıştırabilirsiniz.</p>
+        <h3>Yapay zekâya önce şunu yazın</h3>
+        <pre class="out" id="atif-prompt">[Konu] hakkında 2019 sonrası yayımlanmış 5 araştırma makalesi öner.
+Her kaynağı Vancouver biçiminde tek satırda yaz ve sonuna DOI’sini ekle.
+Bir bilgiden emin değilsen boş bırak, tahmin etme.
+Ben her DOI’yi Crossref’te kontrol edeceğim.</pre>
+        <div class="btns"><button data-copy="atif-prompt">Prompt’u kopyala</button></div>
+      </div>
+      <div class="panel" aria-live="polite">
+        <div id="net-banner"></div>
+        <div class="summary" id="atif-summary"><span class="pill idle">Henüz kontrol edilmedi</span></div>
+        <div id="atif-results"></div>
+        <div class="btns" id="atif-export" hidden>
+          <button id="btn-copy-report">Raporu kopyala</button>
+          <button id="btn-copy-vancouver">Doğrulanmış künyeleri kopyala (Vancouver)</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── MAKALE ─────────── -->
+  <section id="view-makale" class="wrap" hidden>
+    <h2>Sentetik veri ile makale şablonu</h2>
+    <p class="lead">Çalışmanızı tanımlayın; uygulama aynı tohum (seed) ile her seferinde aynı çıkan, gerçek hiçbir kişiye ait olmayan bir veri seti, özet istatistikler ve IMRaD makale şablonu üretir. <span class="synth-tag">SENTETİK</span> sonuçlar yalnızca şablonu ve analiz planını denemek içindir; makalede bulgu olarak raporlanamaz.</p>
+    <div class="grid2">
+      <form class="panel" id="form-makale" novalidate>
+        <label for="m-baslik">Çalışma başlığı</label>
+        <input id="m-baslik" value="Ameliyat Öncesi Müzik Dinletisinin Durumluk Kaygıya Etkisi">
+        <label for="m-desen">Desen</label>
+        <select id="m-desen">
+          <option value="rkc">Randomize kontrollü çalışma (iki grup, ön–son test)</option>
+          <option value="yari">Yarı deneysel (iki grup, ön–son test, randomizasyon yok)</option>
+          <option value="tek">Tek grup ön–son test</option>
+        </select>
+        <div class="row">
+          <div><label for="m-n">Toplam örneklem</label><input id="m-n" type="number" min="10" max="2000" value="80"></div>
+          <div><label for="m-seed">Tohum (seed)</label><input id="m-seed" type="number" value="2026"></div>
+        </div>
+        <div class="row">
+          <div><label for="m-g1">Müdahale grubu adı</label><input id="m-g1" value="Müdahale"></div>
+          <div><label for="m-g2">Kontrol grubu adı</label><input id="m-g2" value="Kontrol"></div>
+        </div>
+        <label for="m-mudahale">Müdahale</label>
+        <input id="m-mudahale" value="Ameliyattan önce 30 dakika müzik dinletisi">
+        <div class="row">
+          <div><label for="m-sonuc">Birincil sonuç</label><input id="m-sonuc" value="Durumluk kaygı (STAI-I)"></div>
+          <div><label for="m-kisa">Değişken kısa adı</label><input id="m-kisa" value="stai"></div>
+        </div>
+        <div class="row">
+          <div><label for="m-min">Ölçek en düşük</label><input id="m-min" type="number" value="20"></div>
+          <div><label for="m-max">Ölçek en yüksek</label><input id="m-max" type="number" value="80"></div>
+        </div>
+        <div class="row">
+          <div><label for="m-ort">Ön ölçüm ort.</label><input id="m-ort" type="number" step="0.1" value="48"></div>
+          <div><label for="m-ss">Ön ölçüm SS</label><input id="m-ss" type="number" step="0.1" value="8"></div>
+        </div>
+        <div class="row">
+          <div><label for="m-d1">Müdahale değişimi</label><input id="m-d1" type="number" step="0.1" value="-8.5"></div>
+          <div><label for="m-d2">Kontrol değişimi</label><input id="m-d2" type="number" step="0.1" value="-1.5"></div>
+        </div>
+        <label for="m-dergi">Hedef dergi / format</label>
+        <input id="m-dergi" value="Hemşirelik dergisi (APA 7, öz en fazla 250 kelime)">
+        <div class="btns"><button class="primary" type="submit">Veriyi ve şablonu üret</button></div>
+        <p class="note">Tüm hesaplama bu sayfada yapılır; hiçbir veri bir yere gönderilmez.</p>
+      </form>
+      <div class="panel" style="min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+          <h3 style="margin:0">Ortaya çıkan veri</h3><span class="synth-tag">SENTETİK — YAYIMLANAMAZ</span>
+        </div>
+        <div class="stats" id="m-stats"></div>
+        <div class="tbl-wrap" id="m-table"></div>
+        <p class="note" id="m-table-note"></p>
+        <div class="btns">
+          <button id="btn-csv">CSV’yi indir</button>
+          <button id="btn-csv-copy">CSV’yi kopyala</button>
+        </div>
+        <h3>Makale şablonu</h3>
+        <div class="seg" role="group" aria-label="Şablon görünümü">
+          <button type="button" id="seg-bos" aria-pressed="true">Boş şablon ([XX])</button>
+          <button type="button" id="seg-dolu" aria-pressed="false">Sentetik veriyle deneme</button>
+          <button type="button" id="seg-prompt" aria-pressed="false">Yapay zekâ prompt’u</button>
+        </div>
+        <pre class="out" id="m-out"></pre>
+        <div class="btns">
+          <button id="btn-out-copy">Kopyala</button>
+          <button id="btn-out-dl">Markdown olarak indir</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">Doç. Dr. Tolga Berber · KTÜ Fen Fakültesi, Bilgisayar Bilimleri · 30 Ekim 2026 · Kaynak doğrulama verisi: Crossref REST API (api.crossref.org).</div></footer>
+
+<script>
+"use strict";
+/* ───────── genel yardımcılar ───────── */
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = (x, d = 1) => Number.isFinite(x) ? x.toFixed(d).replace(".", ",") : "–";
+
+async function copyText(text, btn) {
+  const old = btn.textContent;
+  try { await navigator.clipboard.writeText(text); btn.textContent = "Kopyalandı"; }
+  catch (e) {
+    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand("copy"); } catch (_) {}
+    ta.remove(); btn.textContent = ok ? "Kopyalandı" : "Kopyalanamadı — metni seçip kopyalayın";
+  }
+  setTimeout(() => { btn.textContent = old; }, 1800);
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-copy]"); if (b) copyText($(b.dataset.copy).textContent, b);
+});
+
+let downloadsApi = null;
+(async () => { try { if (window.claude?.use) downloadsApi = await window.claude.use("downloads"); } catch (_) {} })();
+async function saveFile(filename, text, mime) {
+  if (downloadsApi) {
+    try { await downloadsApi.save({ filename, data: new Blob([text], { type: mime }) }); return; } catch (_) { return; }
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type: mime })); a.download = filename;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+/* ───────── sekmeler ───────── */
+function route() {
+  const v = location.hash === "#makale" ? "makale" : "atif";
+  $("view-atif").hidden = v !== "atif"; $("view-makale").hidden = v !== "makale";
+  $("tab-atif").setAttribute("aria-current", v === "atif" ? "page" : "false");
+  $("tab-makale").setAttribute("aria-current", v === "makale" ? "page" : "false");
+}
+addEventListener("hashchange", route); route();
+
+/* ═══════════ 1. ATIF DOĞRULAMA ═══════════ */
+const ORNEK = `Page MJ, McKenzie JE, Bossuyt PM, Boutron I, Hoffmann TC, Mulrow CD, et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ. 2021;372:n71. doi:10.1136/bmj.n71
+
+Schulz KF, Altman DG, Moher D. CONSORT 2010 statement: updated guidelines for reporting parallel group randomised trials. BMJ. 2012;340:c332. doi:10.1136/bmj.c332
+
+Yılmaz A, Demir B, Kaya C. Ameliyat öncesi müziğin anksiyeteye etkisi: randomize kontrollü çalışma. J Perianesth Nurs. 2022;37(4):512-518. doi:10.9999/ornek.2022.0457
+
+von Elm E, Altman DG, Egger M, Pocock SJ, Gøtzsche PC, Vandenbroucke JP. The Strengthening the Reporting of Observational Studies in Epidemiology (STROBE) statement: guidelines for reporting observational studies. Lancet. 2007;370(9596):1453-7.`;
+
+const norm = (s) => String(s || "").toLocaleLowerCase("tr").normalize("NFD").replace(/[̀-ͯ]/g, "")
+  .replace(/ı/g, "i").replace(/<[^>]+>/g, " ").replace(/[^a-z0-9]+/g, " ").trim();
+const STOP = new Set("a an the of and or for in on to with by at from is are its as be into via de la le el en et".split(" "));
+const tokens = (s) => norm(s).split(" ").filter(t => t.length > 1 && !STOP.has(t));
+
+function splitRefs(text) {
+  const t = text.replace(/\r/g, "").trim(); if (!t) return [];
+  let parts = /\n\s*\n/.test(t) ? t.split(/\n\s*\n+/) : t.split(/\n+/);
+  return parts.map(p => p.replace(/\s*\n\s*/g, " ").replace(/^\s*(\[\d+\]|\d+[.)])\s*/, "").trim()).filter(p => p.length > 8);
+}
+function findDoi(ref) {
+  const m = ref.match(/10\.\d{4,9}\/[^\s"<>]+/i); if (!m) return null;
+  return m[0].replace(/[.,;:)\]]+$/, "");
+}
+function yearsIn(ref) {
+  /* Önce yayın yılı kalıplarına bak ("2021;372", "(2021)"), başlıktaki "CONSORT 2010" gibi yılları atla */
+  const pub = [...ref.matchAll(/(?:\b|\()((?:19[5-9]|20[0-4])\d)(?:\s*[;:]|[a-z]?\))/g)].map(m => Number(m[1]));
+  if (pub.length) return pub;
+  return (ref.match(/\b(19[5-9]\d|20[0-4]\d)\b/g) || []).map(Number);
+}
+function crYears(w) {
+  const ys = new Set();
+  for (const k of ["issued", "published-print", "published-online", "published"]) {
+    const y = w?.[k]?.["date-parts"]?.[0]?.[0]; if (y) ys.add(Number(y));
+  }
+  return [...ys];
+}
+function titleCoverage(crTitle, ref) {
+  const tt = tokens(crTitle); if (!tt.length) return 0;
+  const rs = new Set(tokens(ref));
+  return tt.filter(t => rs.has(t)).length / tt.length;
+}
+function retracted(w) {
+  const ups = [...(w["updated-by"] || []), ...(w["update-to"] || [])];
+  if (ups.some(u => /retract|withdraw/i.test(u.type || ""))) return true;
+  return /^\s*(retracted|withdrawn)\b/i.test((w.title || [""])[0]);
+}
+function vancouver(w) {
+  const au = (w.author || []).map(a => {
+    if (a.name) return a.name;
+    const ini = (a.given || "").split(/[\s-]+/).filter(Boolean).map(x => x[0].toUpperCase()).join("");
+    return `${a.family || ""} ${ini}`.trim();
+  });
+  const auS = au.length > 6 ? au.slice(0, 6).join(", ") + ", et al" : au.join(", ");
+  const title = (w.title || [""])[0].replace(/<[^>]+>/g, "").replace(/\.$/, "");
+  const j = (w["short-container-title"] || [])[0] || (w["container-title"] || [])[0] || "";
+  const y = crYears(w)[0] || "";
+  let loc = y ? `${y}` : "";
+  if (w.volume) loc += `;${w.volume}`; if (w.issue) loc += `(${w.issue})`; if (w.page) loc += `:${w.page}`;
+  return `${auS}. ${title}. ${j}. ${loc}. doi:${w.DOI}`;
+}
+
+/* Bir kaynağı Crossref kaydıyla karşılaştırır → {status, checks[], notes[]} (saf fonksiyon) */
+function compare(ref, w, viaSearch) {
+  const checks = [], notes = [];
+  const t = (w.title || [""])[0];
+  const cov = titleCoverage(t, ref);
+  const tStat = cov >= 0.8 ? "ok" : cov >= 0.5 ? "warn" : "bad";
+  checks.push({ k: "Başlık", s: tStat, v: `%${Math.round(cov * 100)} örtüşme` });
+  const ry = yearsIn(ref), cy = crYears(w);
+  let yStat, yV;
+  if (!ry.length) { yStat = "warn"; yV = `Yazılmamış (Crossref: ${cy[0] || "?"})`; }
+  else if (ry.some(y => cy.includes(y))) { yStat = "ok"; yV = `${cy[0]} — aynı`; }
+  else { yStat = "bad"; yV = `Siz: ${ry.join("/")} · Crossref: ${cy.join("/") || "?"}`; }
+  checks.push({ k: "Yıl", s: yStat, v: yV });
+  const fa = (w.author || [])[0];
+  const fam = fa ? (fa.family || fa.name || "") : "";
+  let aStat = "warn", aV = "Crossref’te yazar yok";
+  if (fam) { const hit = norm(ref).includes(norm(fam)); aStat = hit ? "ok" : "bad"; aV = hit ? `${fam} — aynı` : `Crossref: ${fam}`; }
+  checks.push({ k: "İlk yazar", s: aStat, v: aV });
+  const rt = retracted(w);
+  checks.push({ k: "Geri çekilme", s: rt ? "bad" : "ok", v: rt ? "GERİ ÇEKİLMİŞ / güncelleme var" : "Kayıtta görünmüyor" });
+  const bad = checks.filter(c => c.s === "bad").length, warn = checks.filter(c => c.s === "warn").length;
+  let status = bad ? (tStat === "bad" ? "bad" : "warn") : warn ? "warn" : "ok";
+  if (viaSearch) { status = (status === "ok" && cov >= 0.9) ? "warn" : status === "ok" ? "warn" : status; notes.push("Kaynakta DOI yoktu; Crossref’te künyeyle aranan en iyi eşleşme gösteriliyor. Doğruysa bu DOI’yi kaynağınıza ekleyin."); }
+  if (tStat === "bad" && !viaSearch) notes.push("DOI gerçek, ama başka bir makaleye ait. Yapay zekâ gerçek bir DOI’yi uydurma bir künyeyle eşleştirmiş olabilir.");
+  if (yStat === "bad") notes.push("Yıl uyuşmuyor. Künyeyi Crossref’teki bilgiyle düzeltin.");
+  if (rt) notes.push("Bu makale geri çekilmiş veya hakkında düzeltme/uyarı yayımlanmış. Dergi sayfasını kontrol edin; bulgu kaynağı olarak kullanmayın.");
+  if (status === "ok") notes.push("Künye Crossref kaydıyla uyumlu. Son adım: özeti okuyup iddianızı gerçekten desteklediğini kontrol edin.");
+  return { status, checks, notes };
+}
+
+async function getJSON(url) {
+  const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 15000);
+  try {
+    const r = await fetch(url, { signal: ctl.signal, headers: { "Accept": "application/json" } });
+    if (r.status === 404) return { notFound: true };
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return { data: await r.json() };
+  } finally { clearTimeout(tm); }
+}
+
+let lastResults = [];
+let netBlocked = false;
+
+function linksFor(ref, doi) {
+  const q = encodeURIComponent(ref.slice(0, 300));
+  const l = [];
+  if (doi) l.push(`<a href="https://doi.org/${esc(doi)}" target="_blank" rel="noopener">doi.org’da aç</a>`);
+  l.push(`<a href="https://search.crossref.org/search/works?q=${q}&from_ui=yes" target="_blank" rel="noopener">Crossref’te ara</a>`);
+  l.push(`<a href="https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(ref.slice(0, 200))}" target="_blank" rel="noopener">PubMed’de ara</a>`);
+  l.push(`<a href="https://scholar.google.com/scholar?q=${q}" target="_blank" rel="noopener">Google Scholar</a>`);
+  return `<div class="links">${l.join("")}</div>`;
+}
+const LABEL = { ok: "✓ Doğrulandı", warn: "⚠ Kontrol edin", bad: "✗ Sorunlu", idle: "… Sorgulanıyor", net: "Bağlantı yok" };
+
+function renderResult(i, ref, r) {
+  const doi = r.doi;
+  let body = `<div class="ref-head"><strong>Kaynak ${i + 1}</strong><span class="pill ${r.status === "net" ? "idle" : r.status}">${LABEL[r.status]}</span></div>
+    <div class="ref-src">${esc(ref)}</div>`;
+  if (r.status === "idle") return `<div class="ref">${body}</div>`;
+  if (r.message) body += `<div class="why">${esc(r.message)}</div>`;
+  if (r.checks) body += `<div class="checks">${r.checks.map(c => `<div class="chk ${c.s}"><b>${esc(c.k)}</b>${esc(c.v)}</div>`).join("")}</div>`;
+  if (r.work) body += `<div class="cr"><span class="lbl">Crossref kaydı</span><br>${esc(vancouver(r.work))}</div>`;
+  if (r.notes) body += r.notes.map(n => `<div class="why">${esc(n)}</div>`).join("");
+  body += linksFor(ref, doi || r.work?.DOI);
+  return `<div class="ref ${r.status === "net" ? "" : r.status}">${body}</div>`;
+}
+
+function renderSummary() {
+  const c = { ok: 0, warn: 0, bad: 0, net: 0 };
+  lastResults.forEach(r => { if (c[r.status] !== undefined) c[r.status]++; });
+  const pending = lastResults.filter(r => r.status === "idle").length;
+  $("atif-summary").innerHTML =
+    `<span class="pill ok">✓ ${c.ok} doğrulandı</span><span class="pill warn">⚠ ${c.warn} kontrol edin</span><span class="pill bad">✗ ${c.bad} sorunlu</span>` + (c.net ? `<span class="pill idle">${c.net} elle kontrol</span>` : "") +
+    (pending ? `<span class="pill idle">${pending} sırada</span>` : "");
+}
+
+async function checkOne(ref) {
+  const doi = findDoi(ref);
+  try {
+    if (doi) {
+      const res = await getJSON(`https://api.crossref.org/works/${encodeURIComponent(doi).replace(/%2F/gi, "/")}`);
+      if (res.notFound) {
+        const tryS = await getJSON(`https://api.crossref.org/works?rows=1&query.bibliographic=${encodeURIComponent(ref.replace(doi, "").slice(0, 400))}`);
+        const cand = tryS.data?.message?.items?.[0];
+        const cov = cand ? titleCoverage((cand.title || [""])[0], ref) : 0;
+        return { doi, status: "bad", message: `Bu DOI (${doi}) Crossref’te kayıtlı değil. Büyük olasılıkla uydurma.` +
+          (cand && cov >= 0.8 ? " Ancak aynı başlıkla kayıtlı bir makale bulundu; doğru DOI aşağıda." : " Künyeyle aramada da benzer bir makale bulunamadı."),
+          work: cand && cov >= 0.8 ? cand : null };
+      }
+      const w = res.data.message;
+      return { doi, work: w, ...compare(ref, w, false) };
+    }
+    const res = await getJSON(`https://api.crossref.org/works?rows=1&query.bibliographic=${encodeURIComponent(ref.slice(0, 400))}`);
+    const w = res.data?.message?.items?.[0];
+    if (!w) return { status: "bad", message: "DOI yok ve Crossref’te künyeyle eşleşen bir kayıt bulunamadı." };
+    const cmp = compare(ref, w, true);
+    if (cmp.checks[0].s === "bad") return { status: "bad", work: null, message: "DOI yok. Crossref’teki en yakın kayıt başka bir makale; kaynak büyük olasılıkla uydurma veya çok hatalı.", checks: null };
+    return { work: w, ...cmp };
+  } catch (e) {
+    netBlocked = true;
+    return { doi, status: "net", message: "Crossref’e bağlanılamadı. Aşağıdaki bağlantılarla elle kontrol edin." };
+  }
+}
+
+async function runCheck() {
+  const refs = splitRefs($("refs").value);
+  const btn = $("btn-check");
+  if (!refs.length) { $("atif-results").innerHTML = `<div class="banner warn">Önce kaynak listesini yapıştırın veya “Örnek listeyi yükle”ye basın.</div>`; return; }
+  btn.disabled = true; btn.textContent = "Sorgulanıyor…"; netBlocked = false; $("net-banner").innerHTML = "";
+  lastResults = refs.map(() => ({ status: "idle" }));
+  const draw = () => { $("atif-results").innerHTML = refs.map((r, i) => renderResult(i, r, lastResults[i])).join(""); renderSummary(); };
+  draw();
+  let next = 0;
+  async function worker() { while (next < refs.length) { const i = next++; lastResults[i] = await checkOne(refs[i]); draw(); } }
+  await Promise.all([worker(), worker(), worker()]);
+  if (netBlocked) $("net-banner").innerHTML = `<div class="banner warn"><strong>Crossref’e bağlanılamadı.</strong> İnternet bağlantınızı kontrol edin; kurum ağı api.crossref.org adresini engelliyor olabilir. Bağlantılar yine de çalışır.</div>`;
+  $("atif-export").hidden = false;
+  btn.disabled = false; btn.textContent = "Kaynakları doğrula";
+}
+$("btn-check").addEventListener("click", runCheck);
+$("btn-sample").addEventListener("click", () => { $("refs").value = ORNEK; });
+$("btn-clear").addEventListener("click", () => { $("refs").value = ""; $("atif-results").innerHTML = ""; lastResults = []; $("atif-export").hidden = true; $("atif-summary").innerHTML = `<span class="pill idle">Henüz kontrol edilmedi</span>`; $("net-banner").innerHTML = ""; });
+$("btn-copy-report").addEventListener("click", (e) => {
+  const refs = splitRefs($("refs").value);
+  const lines = refs.map((r, i) => {
+    const x = lastResults[i] || {}; const st = LABEL[x.status] || "";
+    const ch = (x.checks || []).map(c => `${c.k}: ${c.v}`).join(" | ");
+    return `${i + 1}. [${st}] ${r}\n   ${ch}${x.message ? "\n   " + x.message : ""}${x.work ? "\n   Crossref: " + vancouver(x.work) : ""}`;
+  });
+  copyText("ATIF DOĞRULAMA RAPORU (Crossref)\n\n" + lines.join("\n\n"), e.currentTarget);
+});
+$("btn-copy-vancouver").addEventListener("click", (e) => {
+  const v = lastResults.filter(x => x.work && x.status === "ok").map((x, i) => `${i + 1}. ${vancouver(x.work)}`);
+  copyText(v.length ? v.join("\n") : "Doğrulanmış (✓) kaynak yok.", e.currentTarget);
+});
+$("refs").value = ORNEK;
+
+/* ═══════════ 2. SENTETİK VERİ VE MAKALE ═══════════ */
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function makeRng(seed) {
+  const u = mulberry32(seed >>> 0); let spare = null;
+  return { u, n(mu = 0, sd = 1) { if (spare !== null) { const s = spare; spare = null; return mu + sd * s; }
+    let a, b, r; do { a = u() * 2 - 1; b = u() * 2 - 1; r = a * a + b * b; } while (r === 0 || r >= 1);
+    const m = Math.sqrt(-2 * Math.log(r) / r); spare = b * m; return mu + sd * a * m; } };
+}
+const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
+const mean = (a) => a.reduce((s, x) => s + x, 0) / a.length;
+const sdev = (a) => { const m = mean(a); return Math.sqrt(a.reduce((s, x) => s + (x - m) ** 2, 0) / (a.length - 1)); };
+function lgamma(z) { const g = 7, c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  if (z < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * z)) - lgamma(1 - z); z -= 1; let x = c[0]; for (let i = 1; i < g + 2; i++) x += c[i] / (z + i); const t = z + g + 0.5; return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x); }
+function betacf(a, b, x) { let qab = a + b, qap = a + 1, qam = a - 1, c = 1, d = 1 - qab * x / qap; if (Math.abs(d) < 1e-30) d = 1e-30; d = 1 / d; let h = d;
+  for (let m = 1; m <= 300; m++) { const m2 = 2 * m; let aa = m * (b - m) * x / ((qam + m2) * (a + m2)); d = 1 + aa * d; if (Math.abs(d) < 1e-30) d = 1e-30; c = 1 + aa / c; if (Math.abs(c) < 1e-30) c = 1e-30; d = 1 / d; h *= d * c;
+    aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2)); d = 1 + aa * d; if (Math.abs(d) < 1e-30) d = 1e-30; c = 1 + aa / c; if (Math.abs(c) < 1e-30) c = 1e-30; d = 1 / d; const del = d * c; h *= del; if (Math.abs(del - 1) < 1e-12) break; } return h; }
+function ibeta(x, a, b) { if (x <= 0) return 0; if (x >= 1) return 1; const bt = Math.exp(lgamma(a + b) - lgamma(a) - lgamma(b) + a * Math.log(x) + b * Math.log(1 - x));
+  return x < (a + 1) / (a + b + 2) ? bt * betacf(a, b, x) / a : 1 - bt * betacf(b, a, 1 - x) / b; }
+const tPvalue = (t, df) => ibeta(df / (df + t * t), df / 2, 0.5); // iki yönlü
+function welch(a, b) { const va = sdev(a) ** 2 / a.length, vb = sdev(b) ** 2 / b.length; const t = (mean(a) - mean(b)) / Math.sqrt(va + vb);
+  const df = (va + vb) ** 2 / (va * va / (a.length - 1) + vb * vb / (b.length - 1)); return { t, df, p: tPvalue(t, df) }; }
+function paired(a, b) { const d = a.map((x, i) => b[i] - x); const t = mean(d) / (sdev(d) / Math.sqrt(d.length)); const df = d.length - 1; return { t, df, p: tPvalue(t, df) }; }
+const pTxt = (p) => p < 0.001 ? "< 0,001" : "= " + p.toFixed(3).replace(".", ",");
+
+function readForm() {
+  const v = (id) => $(id).value.trim(); const n = (id, d) => { const x = parseFloat($(id).value); return Number.isFinite(x) ? x : d; };
+  return { baslik: v("m-baslik") || "Çalışma başlığı", desen: v("m-desen"), N: clamp(Math.round(n("m-n", 80)), 10, 2000), seed: Math.round(n("m-seed", 2026)),
+    g1: v("m-g1") || "Müdahale", g2: v("m-g2") || "Kontrol", mud: v("m-mudahale") || "müdahale", sonuc: v("m-sonuc") || "birincil sonuç",
+    kisa: (v("m-kisa") || "sonuc").toLowerCase().replace(/[^a-z0-9_]/g, "_"), lo: n("m-min", 0), hi: n("m-max", 100), ort: n("m-ort", 50), ss: Math.max(0.1, n("m-ss", 10)),
+    d1: n("m-d1", -5), d2: n("m-d2", 0), dergi: v("m-dergi") || "hedef dergi" };
+}
+
+function generate(f) {
+  const R = makeRng(f.seed); const rows = []; const tek = f.desen === "tek";
+  const sdCh = Math.max(1, f.ss * 0.6);
+  for (let i = 0; i < f.N; i++) {
+    const g = tek ? f.g1 : (i % 2 === 0 ? f.g1 : f.g2);
+    const yas = Math.round(clamp(R.n(52, 12), 18, 85));
+    const cins = R.u() < 0.5 ? "K" : "E";
+    const on = Math.round(clamp(R.n(f.ort, f.ss), f.lo, f.hi));
+    const ch = g === f.g1 ? R.n(f.d1, sdCh) : R.n(f.d2, sdCh);
+    const son = Math.round(clamp(on + ch, f.lo, f.hi));
+    rows.push({ id: "S" + String(i + 1).padStart(3, "0"), grup: g, yas, cinsiyet: cins, on, son });
+  }
+  return rows;
+}
+
+function analyze(f, rows) {
+  const groups = f.desen === "tek" ? [f.g1] : [f.g1, f.g2];
+  const g = {};
+  for (const name of groups) {
+    const r = rows.filter(x => x.grup === name);
+    const on = r.map(x => x.on), son = r.map(x => x.son), ch = r.map(x => x.son - x.on);
+    g[name] = { n: r.length, yas: [mean(r.map(x => x.yas)), sdev(r.map(x => x.yas))], kadin: r.filter(x => x.cinsiyet === "K").length,
+      on: [mean(on), sdev(on)], son: [mean(son), sdev(son)], ch: [mean(ch), sdev(ch)], ic: paired(on, son) };
+  }
+  let ar = null;
+  if (groups.length === 2) {
+    const A = rows.filter(x => x.grup === f.g1), B = rows.filter(x => x.grup === f.g2);
+    ar = { on: welch(A.map(x => x.on), B.map(x => x.on)), son: welch(A.map(x => x.son), B.map(x => x.son)), ch: welch(A.map(x => x.son - x.on), B.map(x => x.son - x.on)), yas: welch(A.map(x => x.yas), B.map(x => x.yas)) };
+  }
+  return { groups, g, ar };
+}
+
+function csvOf(f, rows) {
+  const k = f.kisa;
+  return "﻿" + ["hasta_id", "grup", "yas", "cinsiyet", `${k}_once`, `${k}_sonra`].join(";") + "\n" +
+    rows.map(r => [r.id, r.grup, r.yas, r.cinsiyet, r.on, r.son].join(";")).join("\n") + "\n";
+}
+
+const KILAVUZ = { rkc: "CONSORT 2010", yari: "TREND", tek: "TREND" };
+const DESEN_AD = { rkc: "randomize kontrollü", yari: "yarı deneysel (ön test–son test kontrol gruplu)", tek: "tek grup ön test–son test yarı deneysel" };
+
+function tablo1(f, A, dolu) {
+  const X = (s) => dolu ? s : "[XX]";
+  const gs = A.groups;
+  let t = `**Tablo 1.** Katılımcıların tanımlayıcı özellikleri${dolu ? " — SENTETİK VERİ" : ""}\n\n| Özellik | ${gs.map(g => `${g} (n = ${X(A.g[g].n)})`).join(" | ")}${A.ar ? " | p |" : " |"}\n|---|${gs.map(() => "---").join("|")}${A.ar ? "|---|" : "|"}\n`;
+  t += `| Yaş, ort ± SS | ${gs.map(g => `${X(fmt(A.g[g].yas[0]))} ± ${X(fmt(A.g[g].yas[1]))}`).join(" | ")}${A.ar ? ` | ${X(pTxt(A.ar.yas.p))} |` : " |"}\n`;
+  t += `| Kadın, n (%) | ${gs.map(g => `${X(A.g[g].kadin)} (${X(fmt(100 * A.g[g].kadin / A.g[g].n))})`).join(" | ")}${A.ar ? " | [XX] |" : " |"}\n`;
+  return t;
+}
+function tablo2(f, A, dolu) {
+  const X = (s) => dolu ? s : "[XX]"; const gs = A.groups;
+  let t = `**Tablo 2.** Gruplara göre ${f.sonuc} puanları${dolu ? " — SENTETİK VERİ" : ""}\n\n| Ölçüm | ${gs.map(g => g).join(" | ")}${A.ar ? " | p (gruplar arası) |" : " |"}\n|---|${gs.map(() => "---").join("|")}${A.ar ? "|---|" : "|"}\n`;
+  t += `| Ön ölçüm, ort ± SS | ${gs.map(g => `${X(fmt(A.g[g].on[0]))} ± ${X(fmt(A.g[g].on[1]))}`).join(" | ")}${A.ar ? ` | ${X(pTxt(A.ar.on.p))} |` : " |"}\n`;
+  t += `| Son ölçüm, ort ± SS | ${gs.map(g => `${X(fmt(A.g[g].son[0]))} ± ${X(fmt(A.g[g].son[1]))}`).join(" | ")}${A.ar ? ` | ${X(pTxt(A.ar.son.p))} |` : " |"}\n`;
+  t += `| Değişim (son − ön) | ${gs.map(g => `${X(fmt(A.g[g].ch[0]))} ± ${X(fmt(A.g[g].ch[1]))}`).join(" | ")}${A.ar ? ` | ${X(pTxt(A.ar.ch.p))} |` : " |"}\n`;
+  t += `| Grup içi p (eşleştirilmiş t) | ${gs.map(g => X(pTxt(A.g[g].ic.p))).join(" | ")}${A.ar ? " | |" : " |"}\n`;
+  return t;
+}
+
+function sablon(f, A, dolu) {
+  const kl = KILAVUZ[f.desen], d = DESEN_AD[f.desen], iki = f.desen !== "tek";
+  const X = (s) => dolu ? s : "[XX]";
+  const g1 = A.g[f.g1], g2 = iki ? A.g[f.g2] : null;
+  const bulguCumle = iki
+    ? `${f.g1} grubunda ${f.sonuc} puanı ortalama ${X(fmt(Math.abs(g1.ch[0])))} puan ${g1.ch[0] < 0 ? "azalırken" : "artarken"}, ${f.g2} grubunda ${X(fmt(Math.abs(g2.ch[0])))} puan değişti; gruplar arasındaki fark anlamlıydı (p ${X(pTxt(A.ar.ch.p))}).`
+    : `${f.g1} grubunda ${f.sonuc} puanı ortalama ${X(fmt(Math.abs(g1.ch[0])))} puan değişti (p ${X(pTxt(g1.ic.p))}).`;
+  const uyari = dolu ? `> ⚠ SENTETİK VERİ İLE DENEME DOLDURMASIDIR. Bu sayılar gerçek değildir ve hiçbir yerde bulgu olarak raporlanamaz. Gerçek veri geldiğinde tüm sayılar silinip yeniden hesaplanmalıdır.\n\n` : "";
+  return `${uyari}# ${f.baslik}: ${iki ? (f.desen === "rkc" ? "Randomize Kontrollü Bir Çalışma" : "Yarı Deneysel Bir Çalışma") : "Tek Grup Ön Test–Son Test Çalışması"}
+
+Yazarlar: [Ad SOYAD¹, Ad SOYAD²] · Kurumlar: [¹…, ²…] · Sorumlu yazar: [e-posta]
+Hedef dergi: ${f.dergi} · Raporlama kılavuzu: ${kl}
+
+## Öz
+**Amaç:** Bu çalışmada ${f.mud.toLocaleLowerCase("tr")} uygulamasının ${f.sonuc} üzerine etkisini incelemek amaçlandı.
+**Yöntem:** ${d.charAt(0).toUpperCase() + d.slice(1)} desendeki çalışma [yer, tarih aralığı] arasında ${X(f.N)} katılımcı ile yürütüldü.${iki ? ` Katılımcılar ${f.g1} (n = ${X(g1.n)}) ve ${f.g2} (n = ${X(g2.n)}) gruplarına ${f.desen === "rkc" ? "rastgele" : ""} atandı.` : ""} Veriler [veri toplama araçları] ile toplandı.
+**Bulgular:** ${bulguCumle}
+**Sonuç:** [Bulgunun klinik anlamı ve uygulamaya öneri — 1–2 cümle.]
+**Anahtar kelimeler:** [MeSH / Türkiye Bilim Terimleri ile uyumlu 3–5 kelime]
+
+## 1. Giriş
+- Sorunun büyüklüğü ve önemi (güncel epidemiyolojik veri + kaynak)
+- Konuyla ilgili bilinenler (sistematik derleme / meta-analiz varsa önce onlar)
+- Literatürdeki boşluk: bu çalışma neden gerekli?
+- Amaç ve hipotez: H₁: ${f.mud} uygulanan grubun ${f.sonuc} puanı ${iki ? "kontrol grubundan" : "ön ölçüme göre"} farklıdır.
+
+## 2. Yöntem
+### 2.1. Araştırmanın tasarımı
+${d.charAt(0).toUpperCase() + d.slice(1)} desen. ${kl} kontrol listesine göre raporlandı.${f.desen === "rkc" ? " Klinik çalışma kayıt numarası: [ClinicalTrials.gov NCT…]." : ""}
+### 2.2. Örneklem ve güç analizi
+Evren, örneklem seçim ölçütleri (dahil etme / dışlama). Güç analizi: [yazılım], α = 0,05, güç = 0,80, beklenen etki büyüklüğü [d = …, kaynak] → en az [XX] katılımcı; [%XX] kayıp payı ile ${X(f.N)}.
+${f.desen === "rkc" ? "### 2.3. Randomizasyon ve körleme\nRastgele dizinin üretilmesi [yöntem, blok büyüklüğü], atama gizliliği [kapalı zarf / merkezi], körleme [kim kör?].\n" : ""}### 2.${f.desen === "rkc" ? 4 : 3}. Müdahale
+${f.g1}: ${f.mud}. [Süre, sıklık, uygulayan, ortam — başkasının tekrarlayabileceği ayrıntıda.]${iki ? `\n${f.g2}: [Standart bakım / ne yapıldı?]` : ""}
+### 2.${f.desen === "rkc" ? 5 : 4}. Veri toplama araçları
+${f.sonuc}: [ölçeğin adı, madde sayısı, puan aralığı ${f.lo}–${f.hi}, Türkçe geçerlik-güvenirlik kaynağı, bu çalışmadaki Cronbach α = [XX]]
+### 2.${f.desen === "rkc" ? 6 : 5}. Etik
+[Kurum] Etik Kurulu onayı (tarih: [..], karar no: [..]). Katılımcılardan yazılı bilgilendirilmiş onam alındı. Helsinki Bildirgesi’ne uyuldu.
+### 2.${f.desen === "rkc" ? 7 : 6}. İstatistiksel analiz
+[SPSS / R sürümü]. Normallik [Shapiro–Wilk, çarpıklık-basıklık] ile değerlendirildi. Grup içi karşılaştırmada eşleştirilmiş t testi (normal dağılmayan veride Wilcoxon), ${iki ? "gruplar arası karşılaştırmada bağımsız örneklem t testi (Welch düzeltmeli; normal dağılmayan veride Mann–Whitney U), ön ölçüm farkı varsa ANCOVA kullanıldı. Etki büyüklüğü Cohen’s d ile verildi. " : ""}Anlamlılık p < 0,05.
+
+## 3. Bulgular
+${iki ? `[CONSORT akış şeması: değerlendirilen, randomize edilen, analiz edilen sayıları]\n\n` : ""}${tablo1(f, A, dolu)}
+${tablo2(f, A, dolu)}
+${bulguCumle}
+
+## 4. Tartışma
+- Ana bulgunun bir cümlelik özeti
+- Benzer çalışmalarla karşılaştırma (uyumlu / çelişkili sonuçlar ve olası nedenleri)
+- Olası mekanizma
+- Uygulamaya ve eğitime yansımaları
+
+## 5. Sınırlılıklar
+[Tek merkez, örneklem büyüklüğü, körleme yapılamaması, öz-bildirim ölçeği, kısa izlem süresi …]
+
+## 6. Sonuç ve öneriler
+[Bulgudan çıkan sonuç — veriyle desteklenmeyen genelleme yapmayın.]
+
+## Beyanlar
+Çıkar çatışması: [..] · Finansman: [..] · Yazar katkıları (CRediT): [..]
+Yapay zekâ kullanımı: [Hangi araç, hangi aşamada (ör. dil düzeltme), yazarların sorumluluğu — derginin kuralına göre]
+
+## Kaynaklar
+[Her kaynağı Crossref / doi.org ile doğrulayın — bu uygulamanın 1. sekmesi.]
+`;
+}
+
+function aiPrompt(f) {
+  const kl = KILAVUZ[f.desen], iki = f.desen !== "tek";
+  return `ROL: Sen hemşirelik ve sağlık bilimleri araştırmalarında deneyimli bir yöntembilimci ve akademik yazım danışmanısın.
+
+BAĞLAM: "${f.baslik}" başlıklı, ${DESEN_AD[f.desen]} desende bir çalışma planlıyorum. Toplam ${f.N} katılımcı${iki ? ` (${f.g1} ve ${f.g2} grupları eşit)` : ""}. Müdahale: ${f.mud}. Birincil sonuç: ${f.sonuc} (puan aralığı ${f.lo}–${f.hi}). Hedef dergi: ${f.dergi}. Henüz gerçek veri toplanmadı.
+
+GÖREV:
+1. Önce bir veri sözlüğü hazırla: değişken adı | açıklama | tür | birim | değer aralığı. Kimlik kodu dışında kişisel bilgi önerme.
+2. Ardından, eğitim amaçlı SENTETİK bir veri seti üreten Python kodu yaz (numpy + pandas, seed = ${f.seed}). Ön ölçüm ortalaması yaklaşık ${f.ort} (SS ${f.ss}); ${iki ? `${f.g1} grubunda değişim yaklaşık ${f.d1}, ${f.g2} grubunda yaklaşık ${f.d2}` : `değişim yaklaşık ${f.d1}`} olsun. Dosya adı SENTETIK_ ile başlasın.
+3. IMRaD yapısında makale şablonu hazırla: her bölüm için 2–3 cümlelik yazım yönergesi; yöntemde ${kl} maddelerini hatırlat; bulgularda gerçek sayı yerine [XX] kullan; Tablo 1 ve Tablo 2 için boş tablo kabukları ver; istatistik testlerini gerekçesiyle öner.
+
+ÇIKTI: Türkçe. Başlıklar ve tablolar Markdown biçiminde. Sentetik veriden çıkan hiçbir sayıyı bulgu cümlesi olarak yazma; her sentetik tabloya "SENTETİK VERİ" etiketi koy. Eksik bilgi varsa başlamadan önce bana sor.`;
+}
+
+let M = null; let segMode = "bos";
+function renderMakale() {
+  const f = readForm(); const rows = generate(f); const A = analyze(f, rows);
+  M = { f, rows, A };
+  const k = f.kisa;
+  const show = rows.slice(0, 10);
+  $("m-table").innerHTML = `<table><thead><tr><th class="l">hasta_id</th><th class="l">grup</th><th>yas</th><th>cinsiyet</th><th>${esc(k)}_once</th><th>${esc(k)}_sonra</th></tr></thead><tbody>` +
+    show.map(r => `<tr><td class="l">${r.id}</td><td class="l">${esc(r.grup)}</td><td>${r.yas}</td><td>${r.cinsiyet}</td><td>${r.on}</td><td>${r.son}</td></tr>`).join("") + `</tbody></table>`;
+  $("m-table-note").textContent = `İlk 10 satır gösteriliyor; toplam ${rows.length} satır. Aynı tohum (${f.seed}) her seferinde aynı veriyi üretir.`;
+  const s = [];
+  for (const g of A.groups) s.push(`<div class="stat"><b>${esc(g)} · n = ${A.g[g].n}</b><span>${fmt(A.g[g].on[0])} → ${fmt(A.g[g].son[0])}</span></div>`);
+  if (A.ar) s.push(`<div class="stat"><b>Değişim farkı (Welch t)</b><span>p ${pTxt(A.ar.ch.p)}</span></div>`);
+  else s.push(`<div class="stat"><b>Ön–son (eşleştirilmiş t)</b><span>p ${pTxt(A.g[A.groups[0]].ic.p)}</span></div>`);
+  $("m-stats").innerHTML = s.join("");
+  renderOut();
+}
+function renderOut() {
+  if (!M) return;
+  $("m-out").textContent = segMode === "prompt" ? aiPrompt(M.f) : sablon(M.f, M.A, segMode === "dolu");
+  for (const [id, m] of [["seg-bos", "bos"], ["seg-dolu", "dolu"], ["seg-prompt", "prompt"]]) $(id).setAttribute("aria-pressed", String(segMode === m));
+  $("btn-out-dl").textContent = segMode === "prompt" ? "Metin olarak indir" : "Markdown olarak indir";
+}
+$("form-makale").addEventListener("submit", (e) => { e.preventDefault(); renderMakale(); });
+$("m-desen").addEventListener("change", () => { $("m-g2").disabled = $("m-desen").value === "tek"; });
+$("seg-bos").addEventListener("click", () => { segMode = "bos"; renderOut(); });
+$("seg-dolu").addEventListener("click", () => { segMode = "dolu"; renderOut(); });
+$("seg-prompt").addEventListener("click", () => { segMode = "prompt"; renderOut(); });
+$("btn-csv").addEventListener("click", () => { if (M) saveFile(`SENTETIK_${M.f.kisa}_veri_seed${M.f.seed}.csv`, csvOf(M.f, M.rows), "text/csv;charset=utf-8"); });
+$("btn-csv-copy").addEventListener("click", (e) => { if (M) copyText(csvOf(M.f, M.rows).replace(/^﻿/, ""), e.currentTarget); });
+$("btn-out-copy").addEventListener("click", (e) => copyText($("m-out").textContent, e.currentTarget));
+$("btn-out-dl").addEventListener("click", () => {
+  if (!M) return;
+  const name = segMode === "prompt" ? "makale_prompt.txt" : segMode === "dolu" ? "SENTETIK_makale_deneme.md" : "makale_sablonu.md";
+  saveFile(name, $("m-out").textContent, segMode === "prompt" ? "text/plain;charset=utf-8" : "text/markdown;charset=utf-8");
+});
+renderMakale();
+
+/* test kancası (Node ile denemek için) */
+if (typeof window !== "undefined") window.__atolye = { splitRefs, findDoi, compare, titleCoverage, yearsIn, vancouver, generate, analyze, welch, tPvalue, readForm };
+</script>
+
+</body>
+</html>
